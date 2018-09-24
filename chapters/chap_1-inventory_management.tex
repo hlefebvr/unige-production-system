@@ -1,0 +1,68 @@
+\section{Continious review}
+\subsection{Deterministic case}
+
+\par Let's define $\lambda$ the rate of "emptying" the storage as $\lambda=\frac{items}{t}$
+
+\par [Schema]
+
+\par Costs associated to inventory management are of different types, we denote :  
+\begin{itemize}
+    \item $K$ : fixed cost for ordering a product (€ / order)
+    \item $h$ : inventory cost (€ / t.items)
+    \item $c$ : unitary cost (€ / item)
+\end{itemize}
+And let's call $Q$ the amount of goods we order per delivery (note that $Q=\lambda T$). The goal is to find what is the optimal amount of goods to order knowing the different prices and the "delivery" time given by the supplier ($\tau$).
+
+We want to optimize our inventory management with respect to its cost for a given period of time : 
+
+\[
+    \begin{split}
+    J &= \left( \underbrace{K}_{\textrm{fixed cost per order}} + \underbrace{cQ}_{\textrm{price to buy }Q\textrm{ items}} + \underbrace{\int_0^ThI(t)dt}_{\textrm{storage cost}} \right) \times \frac{1}{T} \\
+    &= \left( K + cQ + h\frac{QT}{2} \right) \times \frac{\lambda}{Q} \\
+    &= \frac{K\lambda}{Q} + c\lambda + \frac{hQ}2
+    \end{split}
+\]
+
+Let's take the derivative with respect to $Q$ :
+\[
+    \frac{\partial J}{\partial Q} = -\frac{K\lambda}{Q^2} + \frac{h}{2} \Rightarrow Q^* = \sqrt{\frac{2K\lambda}{h}}
+\]
+This point is called the \begin{textbf}{Economic Order Quantity}\end{textbf} (EOQ). 
+
+Knowing the delivery time of our supplier $\tau$, we can compute the exact reorder point at which one should call the supplier to order $Q^*$ goods : 
+\[ R = \lambda\tau \]
+
+\subsection{Stochastic case}
+
+\[
+    \begin{split}
+    \tau = \bar\tau + \sigma_\tau x & \textrm{ : stochastic delivery time}\\
+    d = \bar d + \sigma_d x & \textrm{ : stochastic demand }\\
+    x\sim\mathcal{N}(0,1)
+    \end{split}
+\]
+
+The reorder point considered is now given by $\bar\tau\bar d + s.stock$ where the safety stock is some amount of goods reserved in the warehouse in order to lower the probability of being under delivered.
+
+The associated "average" cost  is now given by : 
+\[
+    J = \underbrace{\frac{K\bar d}Q + c\bar d + \frac{hQ}2}_{f(Q)} + \underbrace{h\times s.stock}_{f(s.stock)}
+\]
+Since this function is perfectly splittable into two functions of one variable each, we can seperately minimize them with respect to the cost.
+Minimizing the first part is similar to what we did in the deterministic case : 
+\[ Q^* = \sqrt{\frac{2K\bar d}h} \]
+
+Two strategies can be used to choose a "good" safety stock level : 
+\begin{enumerate}
+    \item Choosing the re-order point $R$ so that the probability of having less demand than we currentely have in store is greater to a certain number (risk).
+    \[
+        P_\tau (d_\tau\le R)\ge\alpha
+    \]
+    where $\alpha$ is called the "fill-rate" and with $d_\tau=\bar d_\tau+\sigma_{d_\tau}x$ where
+    \[
+        \begin{split}
+        \bar d_\tau &= \bar d \bar\tau \\
+        \sigma_{d_\tau} &= \sqrt{ \sigma_d^2\bar\tau + \sigma^2\bar d^2 }
+        \end{split}
+    \]
+\end{enumerate}
