@@ -2,16 +2,37 @@
 
 \usepackage[top=2cm, left=2cm, right=2cm, bottom=2cm]{geometry}
 \usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mdframed}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{decorations.pathmorphing}
 
-\title{Production systems}
+\title{Production Systems}
+\author{Henri LEFEBVRE}
 
 \begin{document}
 \maketitle
 \tableofcontents
 
+\setlength\parskip{0.5cm}
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
 \input{chapters/introduction.tex}
 
-\chapter{Inventory management}
-\input{chapters/chap_1-inventory_management.tex}
+\part{Inventory management}
+\chapter{Continuous review}
+\input{chapters/continuous_review.tex}
+
+\chapter{Periodic review}
+\input{chapters/periodic_review.tex}
+
+\part{Bill of materials}
+\chapter{Model without set-up times for production}
+
+\chapter{Model with set-up time considerations}
+
+\listoffigures
 
 \end{document}
