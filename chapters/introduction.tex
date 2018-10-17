@@ -133,17 +133,17 @@ We will focus on both mass production and Continuous flow processes.
 
 \begin{figure}[h!]
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=1.3]
     % axis
     \draw [<->] (0,5.5) node (yaxis) [above] {Product variety} |- (10.5,0) node (xaxis) [below] {Production volume};
 
-    \draw[fill=gray!20] (3.5, 2) rectangle (8, 4.2);
+    \draw[dotted] (3.5, 2) rectangle (8, 4.2);
     \draw (6, 3.1) node {Mass production};
 
-    \draw[fill=gray!20] (.2, 3.5) rectangle (4, 5);
+    \draw[dotted] (.2, 3.5) rectangle (4, 5);
     \draw (2, 4.2) node {Job shop};
 
-    \draw[fill=gray!20] (7.6, 0.2) rectangle (10, 2.4);
+    \draw[dotted] (7.6, 0.2) rectangle (10, 2.4);
     \draw [align=center] (8.9, 1.3) node {Continuous \\ flow process};
 
     \end{tikzpicture}

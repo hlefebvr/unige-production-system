@@ -100,7 +100,7 @@ Note that, in this case, the bottleneck machine is the one with the highest oper
 
 \section{Batch production}
 
-A batch $b_i$ can be defined as the number of items $i$ the machine produces without interuption before releasing it to ther machines. Let's suppose that we want to produce a batch of final product $b_f$, how much time do we need to do it ? In this section, we will try to answer that question considering that our batch sizes are $b_i = b_fn_{if}$, which is not necessary, but simpler. In general however, you often have external constraints (linked to the technology you use for example) which imposes a minimum batch size or a maximum batch size, so that : 
+A batch $b_i$ can be defined as the number of items $i$ the machine produces without interuption before releasing it to other machines. Let's suppose that we want to produce a batch of final product $b_f$, how much time do we need to do it ? In this section, we will try to answer that question considering that our batch sizes are $b_i = b_fn_{if}$, which is not necessary, but simpler. In general however, you often have external constraints (linked to the technology you use for example) which imposes a minimum batch size or a maximum batch size, so that : 
 \[ b_i^{min} \le b_i \le b_i^{max}, \forall i \]
 From that constraint, we can deduce the following
 \[
@@ -112,7 +112,7 @@ From that constraint, we can deduce the following
 \]
 Since the batch size $b_f$ has to be an integer, we have to make sure that this interval contains at least on integer value, otherwise, we cannot use $b_i = b_fn_{if}$ as a batch size. 
 
-Considering that relation to hold however, we can compute the production time for a given batch as \[ T_{i,prod}(b_i) = T_{oi}b_i = T_{oi}b_fn_{if} \] which now allows us to compute the time takes to go from one raw material (a leaf of the tree in our graph representation) to the final product (root of tree). Considering $\mathcal P_k$ as the path going from the raw material $k$ to the final product in our graph, it holds that \[ T_{\mathcal P_k} = \sum_{j\in\mathcal P_k}T_{j,prod}(b_j) = b_f\sum_{j\in\mathcal P_k} T_{oj}n_{jf} \] This relation tells us about how much time we would need to produce a batch of final product $b_f$ since \[ T_{prod}(b_f) = \max_{\mathcal P_k}\left( T_{\mathcal P_k}(b_f) \right) \]
+Considering that relation to hold however, we can compute the production time for a given batch as \[ T_{i,prod}(b_i) = T_{oi}b_i = T_{oi}b_fn_{if} \] which now allows us to compute the time it takes to go from one raw material (a leaf of the tree in our graph representation) to the final product (root of tree). Considering $\mathcal P_k$ as the path going from the raw material $k$ to the final product in our graph, it holds that \[ T_{\mathcal P_k} = \sum_{j\in\mathcal P_k}T_{j,prod}(b_j) = b_f\sum_{j\in\mathcal P_k} T_{oj}n_{jf} \] This relation tells us about how much time we would need to produce a batch of final product $b_f$ since \[ T_{prod}(b_f) = \max_{\mathcal P_k}\left( T_{\mathcal P_k}(b_f) \right) \]
 
 Up to now, we have considered choosing a batch size $b_f$ and compute the time needed to produce it. But we can as well use the established formulas in the other way to compute the maximum batch size allowed in order respect a certain constraint on production time. For instance, let's say we want to respect the condition $T_{prod}(b_f) \le T^{max}$ meaning that we do not want to produce more than $T^{max}$ units of time. Then it still holds that 
 \[
