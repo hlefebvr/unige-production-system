@@ -1,0 +1,9 @@
+So far, we have built a model considering operation time and setup times to for each machine. Doing that, we made an assumption that for any $i$ we would choose the batch production size of product $i$ following the rule $b_i = b_fn_{if}$. We saw that (1) this is not mandatory (but simpler from the point of view of calculations) and that (2) it is not always feasible. In this chapter, we will discuss the case when $b_i \ne b_fn_{if}$. In the first chapter of this part, we established the following formula : 
+\[ X_f^{max}(\underline b) = \min_i\left( \frac{\mu_i}{n_{n_{if}}}\right) = \min_i\left( \frac{b_i}{T_{si} + T_{oi}b_i} \middle/ n_{if} \right) \] If we want to produce at a minimum production rate $X_f^*$ we can now compute the minimum size of batch on machine $i$ like so \[
+    \begin{split}
+        X_f^{max}(\underline b) \ge X_f^*
+            &\Leftrightarrow \frac{b_i}{T_{si}+T_{oi}b_i}\ge X_f^*n_{if},\forall i\\
+            &\Leftrightarrow b_i\ge X_f^*n_{if}T_{si} + X_f^*n_{if}T_{oi}b_i,\forall i\\
+            &\Leftrightarrow b_i\ge \frac{X_f^*n_{if}T_{si}}{1 - X_f^*n_{if}T_{oi}}, \forall i
+    \end{split}
+\]
