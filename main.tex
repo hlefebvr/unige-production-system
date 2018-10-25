@@ -4,11 +4,13 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{mdframed}
+\usepackage{cancel}
 \usepackage{wrapfig}
 \usepackage{tikz}
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.pathmorphing}
 \usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{patterns}
 \usetikzlibrary{shapes}
 
 \newcommand\WLOG{{\small\textbf{WLOG}}}
@@ -55,7 +57,10 @@
     \chapter{Model with set-up time considerations}
     \input{chapters/with_setup_times.tex}
 
-    \chapter{Giving up $b_i = b_fn_{if}$}
+    \chapter{Arbitrary batch sizing ($b_i \ne b_fn_{if}$)}
     \input{chapters/giving_up_sb.tex}
+
+    \chapter{Fullfillement of an order}
+    \input{chapters/produced_items.tex}
 
 \end{document}
