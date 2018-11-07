@@ -2,6 +2,8 @@ Up to this chapter, our focus has been on the fullfillment of a constraint given
 
 \section{Given that $b_i = b_fn_{if}$}
 
+\subsection{Push systems}
+
 We know, from the previous chapters, that the production time can be computed as \[ T_{prod}(b_f) = \max_{\mathcal P_k}\left( \sum_{i\in\mathcal P_k}(T_{si} + b_fT_{oi}n_{if}) \right) \] but it is worthy to notice that the time to seperately produce two batches of size $b_f$ does not equal the double time we would need to produce one batch of size $b_f$. More formally, we are saying that $T_{prod}(2.b_f)|_{b_f}\ne 2T_{prod}(b_f)$ in the sense that figure (\ref{produced_i:2bf}) represents. In fact, we do not need for a whole "production cycle" to be finished to begin with another one. Indeed, we can begin a new cycle as soon as the "longest" machine has done its work (i.e. the bottleneck machine). The following formula holds instead : \[ \left. T_{prod}(2.b_f) \right|_{b_f} = T_{prod}(b_f) + T_b(b_f) \] where $\left. T_{prod}(2.b_f) \right|_{b_f}$ represents the time needed to produce $2.b_f$ items knowing that the batch size is $b_f$ and where $T_b(b_f)$ is the time which is needed, by the bottleneck machine (hence $T_b$ for bottleneck) to produce a bacth of size $b_f$. This formula can, for sure, be generalized as \begin{equation} \left. T_{prod}(K.b_f) \right|_{b_f} = T_{prod}(b_f) + (K-1)T_b(b_f) \label{produced_i:tprod} \end{equation}
 
 \begin{figure}[h!]
@@ -48,7 +50,7 @@ We know, from the previous chapters, that the production time can be computed as
     \caption{\label{produced_i:2bf}}
 \end{figure}
 
-\subsection{A first example}
+\subsubsection{A first example}
 
 However, the above formula holds for a given bottleneck machine. But we do know that the bottleneck machine depends on the batch size which has been chosen \textit{a priori} : given a batch size $b_f$, we can comptue the production time $T_{prod}(K.b_f)|_{b_f}$. But how can we choose $b_f$ with constraints on the production rate, on the overall production time, and, as well, on the number of items to be produced ? This is not an easy question actually, so let's take an example in order to better understand where the difficulty lies. 
 
@@ -162,7 +164,7 @@ We get that : \[
 
 Finding the optimal batch size is not easy to be done by hand and we usually use approximation techniques to find a solution. 
 
-\subsection{Approximate solution}
+\subsubsection{Approximate solution}
 
 Let us define our coefficient $K$ as $\frac{N}{b_f}$ and let's assume that this number is an integer number. Then, assuming that we know \textit{a priori} the bottleneck machine $b$, it holds that \[ \begin{split}
     T_{prod}(N)|_{b_f} &= \sum_{i\in\mathcal P_k} ( T_{si} + T_{oi}n_{if}b_f ) + \left( \frac{N}{b_f} - 1 \right)(T_{sb} + b_fT_{ob}n_{bf})\\
@@ -191,4 +193,109 @@ This results gives us the optimal batch size we should use \textbf{given the bot
     \caption{\label{produced_i:convex}Two different convex functions for finding "optimal" batch size}
 \end{figure}
 
+\subsubsection{Upper bound}
+
+As previously said, computing the exact production time needed to produce $N$ items isn't an easy thing to do. However, a good upper bound for the production time, given a batch size $b_f$, can be computed as \[ T_{prod}(N)|_{b_f}\le T_{prod}(b_f) + \left( \left\lceil \frac{N}{b_f} \right\rceil - 1 \right)T_b(b_f) \] The error we're making in our estimate is then proportionnal to $\left\lceil \frac{N}{b_f} \right\rceil b_f - N$ where $\left\lceil \frac{N}{b_f} \right\rceil b_f$ represents the number of items for which we computed the production time and $N$ the aimed number of items. 
+
+\subsection{Pull systems}
+
+Concerning production systems which use the Kanban approach (also refered as pull systems), we can find a somehow analogous formula to compute an upper bound for the production time of $N$ items.
+
+From the previous sections, we know that the ratio $D/D_i$ gives us the number of batches that machine $i$ delivers during a time window $D$. Thus, the working time of machine $i$ can be computed as \[ T_{wi} = \frac{D}{D_i}(T_{si}+T_{oi}b_i) \] Which equals, if we consider the batch sizing as $b_i = b_f n_{if}$, \[ \frac{D}{\frac{b_f}{X_f^{max}(b_f)}} (T_{si} + T_{oi}n_{if}) = D\frac{X_f^{max}(b_f)}{\frac{b_f}{T_{si}+T_{oi}n_{if}b_f}} \] since $D_i = D, \forall i$ and $D = b_f / X^{max}_f(b_f)$. Finally, noting that $X_f^{max} = \min\left( \frac{b_f}{T_{si} + T_{oi}b_fn_{if}} \right)$, we conclude that in any case : \[ T_{wi} \le D \] Thus, it stands that, since the time to produce the first batch is given by $L.D$ where $L$ is the level of the Bill of Material, an upper bound for the production time of $N$ items using batch sized as $b_i = b_fn_{if}$ in the pull production system is :
+\[
+    T_{prod}^{pull}(N)|_{b_f} = LD + \left\lceil \frac{N}{b_f} - 1 \right\rceil D
+\]
+This is very analogous to the previous formula obtained when dealing with push systems since here, the production cycle $D$ is determined by the bottleneck machine ($D = T_b(b_f)$). 
+
+\subsection{Conclusion}
+
+We end up with two estimates for an upper bound of the time to produce $N$ items which are : 
+\[
+    \begin{split}
+        T_{prod}^{push}(N)|_{b_f} &\le T_{prod}(b_f) + \left( \left\lceil \frac{N}{b_f} \right\rceil - 1 \right)T_b(b_f)\\
+        T_{prod}^{pull}(N)|_{b_f} &\le LD + \left( \left\lceil \frac{N}{b_f}\right\rceil - 1 \right) T_b(b_f)
+    \end{split}
+\]
+
+And it can be easily seen that $T_{prod}^{push}(b_f) \le LD$ which imples the following relation between our two upper bounds : 
+\[ T_{prod}^{push}(N)|_{b_f} \le T_{prod}^{pull}(N)|_{b_f} \]
+But since our goal is to find a "reasonable" time to be considered for the production of $N$ items, for instance to tell our consumer that the production will be ready by that time and that he should come pick up our final products, one may always use the second formula even for \textit{push} systems since (1) it is an upper bound of the production time and (2) we end with a uniform formula. 
+
+\subsection{Computing upper bounds : one final example}
+
+\begin{wrapfigure}[14]{l}{4cm}
+    \centering
+    \begin{tikzpicture}
+        \draw (0, 0) node[draw, circle] (f) {$f$};
+        \draw (0, -2) node[draw, circle] (1) {$1$};
+        \draw (0, -4) node[draw, circle] (2) {$2$};
+        \draw (0, -6) node[draw, circle] (RM) {$\vphantom{j}$};
+
+        \draw[dotted] (-.5, -.5) .. controls (0, -.75) .. (.5, -.5) node[right] {$(2, 1)$};
+        \draw[dotted] (-.5, -2.5) .. controls (0, -2.75) .. (.5, -2.5) node[right] {$(10, 2)$};
+        \draw[dotted] (-.5, -4.5) .. controls (0, -4.75) .. (.5, -4.5) node[right] {$(1, 1)$};
+
+        \draw[<-] (f) -- (1);
+        \draw[->] (2) -- (1);
+        \draw[<-] (2) -- (RM);
+    \end{tikzpicture}
+    \caption{\label{produced_i:simple_bom}Example}
+\end{wrapfigure}
+
+Consider figure (\ref{produced_i:simple_bom}) which represents a very simple bill of material. Let's assume that one client orders $N = 70$ final products. When should we tell him to come back to pick up his goods ? We will do the computations studying various batch sizes among $10, 7$ and $6$. 
+
+\subsubsection{Using push systems}
+
+Using the previously established formula, we can compute an upper bound of the time needed to produce $N=70$ items like so :
+\[
+    T_{prod}^{push}(70)|_{b_f = 10} = (\underline{1 + 1.10} + \underline{ 10 + 2.10 } + \underline{ 2 + 1.10 } ) + (7-1)(10 + 2.10) = 233
+\] since with $b_f = 10$, machine number $1$ is the bottleneck machine. Note that, in this situation, the computed upper bound is actually the "supremum" (the best upper bound we can found) which coincides with the exact value of $T_{prod}^{push}$ since $70$ is a multiple of $10$. 
+
+Similar computations gives the following results : 
+\[
+    \begin{split}
+        T_{prod}^{push}(70)|_{b_f = 7} &= 257\\
+        T_{prod}^{push}(70)|_{b_f = 6} &\le 279\\
+    \end{split}
+\]
+And note that, in the latter case, the result is an upper bound which differs from the exact value of the production time needed since $6$ is not a divisor of $70$. Actually, we are estimating our upper bound by computing the time needed to produce $6\times 12 = 72$ items instead of $70$ since $\lceil 70 / 6 \rceil = 12$. 
+
+\subsubsection{Using pull systems}
+
+Using the corresponding formula for the pull systems, we can compute upper bounds in the same way. (Note that the formula can be rewritten as $T_{prod}^{pull}(N)_{b_f} = \left( L-1+\left\lceil \frac{N}{b_f} \right\rceil \right) T_b(b_f)$ which is handier to compute by hand...). Doing so, we get the following results : 
+
+\[
+    \begin{split}
+        T_{prod}^{pull}(70)|_{b_f = 10} &\le (3 - 1 + 7).30 = 270\\
+        T_{prod}^{pull}(70)|_{b_f = 7} &\le 288\\
+        T_{prod}^{pull}(70)|_{b_f = 6} &\le 308\\
+    \end{split}
+\]
+
+Which gives as expected greater upper bounds but sufficiently good ones.
+
+\subsubsection{Optimal batch sizing ?}
+
+Just like we did in the section dedicated to push systems, and since we know that we can use one uniformed formula, let's suppose $N/b_f$ to be integer and let's assume knowing the bottleneck machine corresponding to the optimal batch size, our upper bound can be given by \[
+    \begin{split}
+        T_{prod}(N)_{b_f} &= \left(L - 1 \frac{N}{b_f}\right)T_b(b_f) \\
+        &= \left(L-1\frac{N}{b_f}\right) ( T_{sb} + T_{ob}b_fn_{bf} ) \\
+        &= \frac{N}{b_f}T_{sb} + (L-1)T_{ob}b_fn_{b_f} + (L-1)T_{sb} + NT_{ob}n_{bf}
+    \end{split}
+\]
+And let's take the derivative of this function with respect to $b_f$, it yields 
+\[
+    \frac{dT_{prod}}{db_f} = -\frac{N}{b_f^2} + (L-1)T_{ob}b_fn_{bf}
+\]
+Which is convex and yields the optimal solution \[ b_f^\circ = \sqrt{ \frac{NT_{sb}}{ (L-1)T_{ob}n_{bf} } } \]
+But keep in mind that, similarly to what have been said in the previous section, this formula holds only if the bottleneck machine was well the one we had supposed it would be. That is, we have to check \textit{a posteriori} that the bottleneck machine we considered for our computation is well the one corresponding to the batch size $b_f^\circ$. 
+
+Looking back at our example, we obtain the "optimal" batch size (supposing that $1$ will be the bottleneck machine) as $b_f^\circ = \sqrt{ \frac{70.10}{2.2} } \approx 14$. Using such a batch size\footnote{which is relevant since the bottleneck machine associated to that batch size is well machine $1$} will result in the "smallest" production time estimate using the established formula which are \[
+    \begin{split}
+    T_{prod}^{push}(70)|_{b_f = 14} &= 221\\
+    T_{prod}^{push}(70)|_{b_f = 14} &= 266\\
+    \end{split}
+    \]
+
 \section{Arbitrary batch sizing}
+
