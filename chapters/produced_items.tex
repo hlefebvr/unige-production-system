@@ -299,3 +299,8 @@ Looking back at our example, we obtain the "optimal" batch size (supposing that 
 
 \section{Arbitrary batch sizing}
 
+Our final consideration concerning the computation of the time needed to produce a fixed number of items $N$ is the one related to the situation in which $b_i\ne b_fn_{if}$. We have seen that the only way of producing using an arbitrary batch size is to use the Kanban system. In this case, we are dealing with different batch sizes for each machine $b_i$ which are arbitrary choosen. We have already established that $\frac{D}{D_i}=K_i$ gives us the number of batches of product $i$ produced during the time window $D$. Thus, $K_ib_i$ returns the number of items $i$ produced during one production cycle $D$ and $\left\lceil \frac{N}{K_fb_f} \right\rceil$ equals the number of production cycle $D$ needed in order to produce $N$ items. Thus, the following formula holds:  
+\[
+    T_{prod}(N)|_{\underline b} = LD + \left(\left\lceil \frac{N}{K_fb_f} \right\rceil - 1\right)D
+\]
+Which is a generalization of the previous formula when $b_i = b_fn_{if}$ since in this case we have $K_f = 1$. 
