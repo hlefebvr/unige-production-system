@@ -1,0 +1,117 @@
+In this new chapter, we will discuss how we can deal with cases in which we have more than one final product. We will see that this general case can be reduced to the case we have seen so far in which we have only one final product. We will then treat a small example.
+
+\section{Production mix}
+
+We now a consider a bill of material in which we may have more than one final product. Considering one of these final product, let's say $f_i$, we can compute the percentage it represents within the overall production of the plant. This percentage is called the "production mix" of product $f_i$ and can be more formally expressed as \[ mix(f_i) = \frac{\#f_i\textrm{ }produced}{\#items\textrm{ }produced} \] If we consider all the final products made by the plant, the production mix can be thought of as the probability to pick up randomly $f_i$ among all the different products. 
+
+The way we can turn our bill of material with multiple final products into one with only one final product can be achieved through this idea. In fact, we introduce a new fictional level in the bill of material, called $D$ for "dummy" product, which is manufactured by "fictionally" pack every final products into one box. We consider this operation to be performed instantely. What about the coefficients ? How many original final products should be packed with the others to build this new assembled final product $D$ ? In order to respect the production mix of the plant, we should choose the $n_{iD}$ coefficients so that \[ \frac{n_{iD}}{\sum_{f_j}n_{f_jD}} = mix(f_i), \forall f_j \] However, since the $n_{f_iD}$ coefficients must be integer, we need to choose the smallest integers respecting these equations. 
+
+For instance, let's consider a production plant which makes three different final products with the following mixes : 
+\begin{align*}
+    mix(f_1) &= 0.15 = \frac{15}{100} & mix(f_2) &= 0.5 = \frac{50}{100} & mix(f_3) &= 0.35 = \frac{35}{100}
+\end{align*}
+We can then try to reduce each fraction as long as we keep a common denominator. This gives the following :
+\begin{align*}
+    mix(f_1) &= \frac{3}{10} & mix(f_2) &= \frac{10}{20} & mix(f_3) &= \frac{7}{20}
+\end{align*}
+Then, by identification, we get that $\sum_{f_i}n_{f_iD} = 20$ and that $n_{f_1D} = 3$, $n_{f_2D} = 10$ and $n_{f_3D} = 7$. The resulting transformation is represented in figure (\ref{multiple_final:idea}).
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        \foreach \x in {0, 10} {
+            \draw (\x,0) node[draw, circle] (1\x) {$f_1$};
+            \draw[dashed] (\x, -1) -- (\x, -3);
+            \draw (\x + 2,0) node[draw, circle] (2\x) {$f_2$};
+            \draw[dashed] (\x + 2, -1) -- (\x + 2, -3);
+            \draw (\x + 4,0) node[draw, circle] (3\x) {$f_3$};
+            \draw[dashed] (\x + 4, -1) -- (\x + 4, -3);
+        }
+        \draw[->, thick] (5, 0) -- (9, 0);
+
+        \draw (12, 3) node[circle, draw] (D) {$D$};
+        \draw[->] (110) -- node[left] {$3$} (D);
+        \draw[->] (210) -- node[left] {$10$} (D);
+        \draw[->] (310) -- node[right] {$7$} (D);
+    \end{tikzpicture}
+    \caption{\label{multiple_final:idea}Basic idea for reducing the number of final products to one}
+\end{figure}
+
+\section{A small example}
+
+Let's consider figure (\ref{multiple_final:bom}) which represents a bill of material in which three different final products are made. The plant has a production mix defined as follow \begin{align*} mix(f_1) &= \frac{1}{3} = \frac{2}{6} & mix(f_2) &= \frac{1}{6} & mix(f_3) &= \frac{1}{2} = \frac{3}{6} \end{align*} We can thus enhance our bill of material with a dummy product with valuations of $2$, $1$ and $3$ as in figure (\ref{multiple_final:bom2}). 
+\begin{figure}[h!]
+    \centering
+    \subfigure[Initial bill of material]{
+        \label{multiple_final:bom}
+        \begin{tikzpicture}[scale=.8]
+            \draw (0,0) node[draw, circle] (f1) {$f_1$};
+            \sopVal{0}{0}{$(2,1)$}
+            \draw (2,0) node[draw, circle] (f2) {$f_2$};
+            \sopVal{2}{0}{$(2,2)$}
+            \draw (4,0) node[draw, circle] (f3) {$f_3$};
+            \sopVal{4}{0}{$(5,1)$}
+            \draw (0,-2) node[draw, circle] (1) {$1$};
+            \sopVal{0}{-2}{$(8,2)$}
+            \draw (2,-2) node[draw, circle] (2) {$2$};
+            \sopVal{2}{-2}{$(3,3)$}
+            \draw (4,-2) node[draw, circle] (3) {$3$};
+            \sopVal{4}{-2}{$(10,2)$}
+            \draw (2,-6) node[draw, circle] (4) {$4$};
+            \sopVal{2}{-6}{$(1,1)$}
+            \draw (2,-8) node[draw, circle] (RM1) {$\vphantom{4}$};
+            \draw[->] (1) -- (f1);
+            \draw[->] (2) -- (f2);
+            \draw[->] (3) -- (f3);
+            \draw[->] (4) -- (1);
+            \draw[->] (4) -- (2);
+            \draw[->] (4) -- (3);
+            \draw[->] (RM1) -- (4);
+        \end{tikzpicture}
+    }
+    \subfigure[Enhanced bill of material]{
+        \label{multiple_final:bom2}
+        \begin{tikzpicture}[scale=.8]
+            \draw (0,0) node[draw, circle] (f1) {$f_1$};
+            \sopVal{0}{0}{$(2,1)$}
+            \draw (2,0) node[draw, circle] (f2) {$f_2$};
+            \sopVal{2}{0}{$(2,2)$}
+            \draw (4,0) node[draw, circle] (f3) {$f_3$};
+            \sopVal{4}{0}{$(5,1)$}
+            \draw (0,-2) node[draw, circle] (1) {$1$};
+            \sopVal{0}{-2}{$(8,2)$}
+            \draw (2,-2) node[draw, circle] (2) {$2$};
+            \sopVal{2}{-2}{$(3,3)$}
+            \draw (4,-2) node[draw, circle] (3) {$3$};
+            \sopVal{4}{-2}{$(10,2)$}
+            \draw (2,-6) node[draw, circle] (4) {$4$};
+            \sopVal{2}{-6}{$(1,1)$}
+            \draw (2,-8) node[draw, circle] (RM1) {$\vphantom{4}$};
+            \draw[->] (1) -- (f1);
+            \draw[->] (2) -- (f2);
+            \draw[->] (3) -- (f3);
+            \draw[->] (4) -- (1);
+            \draw[->] (4) -- (2);
+            \draw[->] (4) -- (3);
+            \draw[->] (RM1) -- (4);
+
+            \draw (2, 4) node[circle, draw] (D) {$D$};
+            \draw[->] (f1) -- node[left] {2} (D);
+            \draw[->] (f2) -- node[left] {1} (D);
+            \draw[->] (f3) -- node[left] {3} (D);
+        \end{tikzpicture}
+    }
+    \caption{\label{multiple_final:idea}Bill of material}
+\end{figure}
+Using the latter bill of material, we can compute the $n_{iD}$ coefficients for each pairs. These are given by \begin{align*} n_{f_1D} &= 2 & n_{f_2D} &= 1 & n_{f_3D} &= 3 & n_{1D} &= 2 & n_{2D} &= 1 & n_{3D} &= 3 & n_{4D} &= 6 \end{align*} and then the maximum production rate as \[
+    X_D^{max}(b_D) = \min\left(
+        \frac{b_D}{2+1.b_D.2} ; 
+        \frac{b_D}{2+1.b_D.2} ; 
+        \frac{b_D}{5+3.b_D.1} ; 
+        \frac{b_D}{8+2.b_D.2} ; 
+        \frac{b_D}{2+3.b_D.1} ; 
+        \frac{b_D}{10+2.b_D.3} ; 
+        \frac{b_D}{1+1.b_D.6}
+    \right) \le \frac{1}{6}
+\]
+Note that we can easily compute the associated maximum production rate for each original final product using the fact that $\bar X_{f_i}^{max} = X_D^{max}\times n_{f_iD}$. The rest of the computations does not differ from what have previously been done. 
