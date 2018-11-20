@@ -193,3 +193,24 @@ The way of drawing the GANT diagram is the following :
 \end{enumerate}
 
 Note that, still like before, it takes $L.D$ (where $L$ is the number of levels of bill of material) to produce the first batch. In our case, $D=b_f/X_f=22$. The associated GANT diagram is represented in figure (\ref{shared_temp:gant}).
+
+\begin{figure}
+    \begin{tikzpicture}[xscale=.15]
+        \draw[->] (-2,0) node[left] {$f$} -- (5*22 + 2, 0);
+        \foreach \y in {1,...,7} \draw[->] (-2, - \y) node[left] {$\y$} -- (5*22 + 2, -\y);
+
+        \foreach \d\y\t in {0/5/21, 0/7/5, 1/3/3, 1/6/5, 2/4/22, 3/1/8, 3/2/6, 4/0/3} {
+            \draw[pattern=north west lines, pattern color=black!30!green] (\d * 22, -\y) rectangle (\d * 22 + \t, -\y + .5);
+        }
+
+        \foreach \d in {0,...,4} {
+            \foreach \y\b\t in {0/2/3, 1/2/8, 2/2/6, 3/2/3, 4/4/22, 5/6/21, 6/4/5, 7/4/5} {
+                \draw (\d * 22, -\y) rectangle node {\b} (\d * 22 + \t, -\y + .5);
+                \path (\d * 22, -\y + .5) rectangle node {\t} (\d * 22 + \t, -\y + 1);
+            }
+        }
+
+        \foreach \d in {0,...,5} \draw[dashed, gray] (\d * 22, .75) -- (\d * 22, -7.5);
+    \end{tikzpicture}
+    \caption{\label{shared_temp:gant}GANT diagram}
+\end{figure}
