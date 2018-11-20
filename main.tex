@@ -7,6 +7,7 @@
 \usepackage{cancel}
 \usepackage{wrapfig}
 \usepackage{tikz}
+\usepackage{subfigure}
 \usetikzlibrary{arrows}
 \usetikzlibrary{decorations.pathmorphing}
 \usetikzlibrary{decorations.pathreplacing}
@@ -14,6 +15,7 @@
 \usetikzlibrary{shapes}
 
 \newcommand\WLOG{{\small\textbf{WLOG}}}
+\newcommand\opVal[3]{\draw[dotted] (#1 -1, #2 - .5) .. controls (#1, #2 - .75) .. (#1 + 1, #2 - .5) node[right] {#3};}
 
 \title{Production Systems}
 \author{Henri LEFEBVRE}
@@ -65,5 +67,14 @@
 
     \chapter{Production scheduling}
     \input{chapters/intro_scheduling.tex}
+
+    \chapter{Shared temporary products}
+    \input{chapters/shared_temporary.tex}
+
+    \chapter{Multiple final products}
+    \input{chapters/multiple_final.tex}
+
+    \chapter{Shared resources generalisation}
+    \input{chapters/shared_res.tex}
 
 \end{document}
