@@ -86,7 +86,7 @@ Let's consider figure (\ref{shared_temp:basic_bom}) in which we have a product $
     \caption{\label{shared_temp:basic_bom}Dropping the unique path assumption}
 \end{figure}
 
-But we can still reason about the bill of material and notice that the number of items $i$ needed to produce one item $f$ must take into account the number of items $i$ needed to produce the three temporary produce needed for $f$. Thus, the number of items $i$ needed is the sum between all the paths from $i$ to $f$ available in the bill of material. This property can be thought as a "superposition effect" typical in phisical systems. Finally, the following formula holds: \[ n_{if} = \sum_{ p \in\mathcal P(i,f)} n_{ij}^p \] where $\mathcal P(i,f)$ denotes the set of paths going from $i$ to $f$ and $n_{if}^p = \prod_{(k,j)\in p}n_{kj}$. 
+But we can still reason about the bill of material and notice that the number of items $i$ needed to produce one item $f$ must take into account the number of items $i$ needed to produce the three temporary produce needed for $f$. Thus, the number of items $i$ needed is the sum between all the paths from $i$ to $f$ available in the bill of material. This property can be thought as a "superposition effect" typical in physical systems. Finally, the following formula holds: \[ n_{if} = \sum_{ p \in\mathcal P(i,f)} n_{ij}^p \] where $\mathcal P(i,f)$ denotes the set of paths going from $i$ to $f$ and $n_{if}^p = \prod_{(k,j)\in p}n_{kj}$. 
 
 Concerning figure (\ref{shared_temp:basic_bom}), we can see that there are three different paths from $i$ to $f$. Thus, it holds that
 \[
