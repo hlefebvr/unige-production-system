@@ -80,3 +80,67 @@ Note that this does not necessary means that one task will be late, it simply sa
 \end{figure}
 
 \subsection{Moore algorithm}
+
+The Moore algorithm is used to minimize the number of tardy jobs ($\sum_i U_i$) and is formalized as follows : 
+\begin{description}
+    \item[step 0] : Initialize $\mathcal L$ using the EDD rule and $\mathcal R = \emptyset$
+    \item[step 1] : Compute the lateness $L_i, \forall\tau_i\in\mathcal L$
+    \item[step 2] : If there exists a tardy task in $\mathcal L$, focus on the subset $\mathcal L' = \{ \tau^1, ..., \tau^k \}$ where $k$ is the number of the first tardy task found. Else, \textbf{STOP}, the solution is optimal.
+    \item[step 3] : Extract from $\mathcal L'$ the task with the greatest processing time from $\mathcal L$ and move it to $\mathcal R$. Go to \textbf{step 1}.
+\end{description}
+
+Let's execute the algorithm with the following input tasks : 
+\begin{center}
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline
+        & $\tau_1$ & $\tau_2$ & $\tau_3$ & $\tau_4$ & $\tau_5$ & $\tau_6$ & $\tau_7$ & $\tau_8$\\\hline
+    $t_1$ & 5 & 7 & 10 & 9 & 10 & 8 & 15 & 3\\\hline
+    $dd_i$ & 30 & 45 & 20 & 15 & 32 & 50 & 80 & 22\\\hline
+    \end{tabular}
+\end{center}
+
+The first step is to initialize the $\mathcal L$ list with the tasks ordered following the EDD rule. Such an operation yields the following : \[ \mathcal L = (\tau_4, \tau_3, \tau_8, \tau_1, \tau_5, \tau_2, \tau_6, \tau_7) \]
+which is represented in figure (\ref{scheduling:init_edd}). We can then compute the lateness of each task $L_i = C_i - dd_i$ as \[ L = ( -6, -1, 0, -3, 5, -1, 2, -13 ) \] in which we can see that both $\tau_5$ and $\tau_6$ are tardy. 
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[xscale=.2]
+        \draw[->] (-2,0) -- (70, 0);
+        \draw (0,0) node[below] {$0$} rectangle node {$\tau_4$} (9, .5);
+        \draw (9,0) node[below] {$9$} rectangle node {$\tau_3$} (19, .5);
+        \draw (19,0) node[below] {$19$} rectangle node {$\tau_8$} (22, .5);
+        \draw (22,0) node[below] {$22$} rectangle node {$\tau_1$} (27, .5);
+        \draw (27,0) node[below] {$27$} rectangle node {$\tau_5$} (37, .5);
+        \draw (37,0) node[below] {$37$} rectangle node {$\tau_2$} (44, .5);
+        \draw (44,0) node[below] {$44$} rectangle node {$\tau_6$} (52, .5);
+        \draw (52,0) node[below] {$52$} rectangle node {$\tau_7$} (67, .5);
+        \draw (67, 0) node[below] {$67$};
+    \end{tikzpicture}
+    \caption{\label{scheduling:init_edd}Ordered tasks by the EDD rule}
+\end{figure}
+
+Step 2 of the algorithm tells us to focus on the sublist $\mathcal L' = ( \tau_4, \tau_3, \tau_8, \tau_1, \tau_5 )$ composed of all the tasks scheduled before the first tardy task. Among these tasks, the one with the gratest processing time is $\tau_3$ ($t_3 = 10$), thus, we move $\tau_3$ from $\mathcal L$ to $\mathcal R$. We then go back to step 1.
+
+At this point, we have removed $\tau_3$ from $\mathcal L$ so that now \[ \mathcal L = (\tau_4, \tau_8, \tau_1, \tau_5, \tau_2, \tau_6, \tau_7) \] on which we can compute the lateness of each tasks : \[ L = (-6, -10, -13, -15, -11, -8, -23) \] We can see, as a result, that no tasks are tardy. The algorithm stops and the solution is given by $(\mathcal L | \mathcal R)$ where $\mathcal R$ contains the only task which will be tardy. 
+
+\section{Choosing the right rule}
+
+Since different approaches have been developed in the former section, one may wonder how and when to choose one technique rather than another. The answer to that specific question is, of course, dependent of the context. However, some words can be said regarding to the cost constraints and how they may influence one's choice. 
+
+For instance, let's consider a case where the contract on which you agreed with the customer stipulates that the cost curve is of the same shape as figure (\ref{scheduling:cost_sq}). Such a curve says that the cost associated to being late is small if one order is delivered tardy but gets more and more elevated as the lateness increases. In such a case, the EDD rule is the right approaches since we "don't care" about being late as long as we are not "too late". 
+
+Considering figure (\ref{scheduling:cost_st}) however, we can see that we pay a fixed cost for being tardy. In this case, one should try to minimize the number of tardy jobs and should use the Moore's algorithm. 
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=.5]
+        \draw[<->] (0, 10) node[above] {$c_i$} |- (10, 0) node[right] {$L_i,\forall i$};
+        \draw (0,0) .. controls (5, 1) .. (10, 8);
+    \end{tikzpicture}
+    \caption{\label{scheduling:cost_sq}Cost function likely to be used with the EDD rule}
+    \begin{tikzpicture}[scale=.5]
+        \draw[<->] (0, 10) node[above] {$c_i$} |- (10, 0) node[right] {$L_i,\forall i$};
+        \draw[thick] (0,0) |- (10, 5);
+    \end{tikzpicture}
+    \caption{\label{scheduling:cost_st}Cost function likely to be used with the Moore algorithm}
+\end{figure}
