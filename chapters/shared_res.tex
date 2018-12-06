@@ -334,4 +334,114 @@ The latter result can be regarded as a function of $\alpha$ which we can derive 
 
 \section{One final example}
 
-This section will now present the final example of this chapter. 
+This section will now present the final example of this chapter which is related to the bill of material represented in figure (\ref{shared_res:bom3}). In this example, we have three machines, denoted by $M1$, $M2$ and $M3$ : 
+\begin{itemize}
+    \item Machine $M1$ can produce both final products $f_1$ and $f_2$. The setup time for $M1$ is $T_{sM1} = 10$ and its operational time are $T_o(f_1, M1) = 5$ and $T_o(f_2, M2) = 10$
+    \item Machine $M2$ can produce items $1, 2$ and $3$ with a setup time of $T_{sM2} = 3$ and operational time $T(1, M2) = 2, T(2, M2)=5$ and $T(3, M2) = 6$
+    \item Machine $M3$ can produce items $3$ and $4$ with no setup time and with operational time $T_o(3, M3) = 3$ and $T_o(4, M3) = 5$
+\end{itemize}
+
+The workload of machine $M2$ for product $3$ is already given and equals $\lambda(3, M2) = \frac{1}{4}$. We will study the fullfillment of an order requiring $28$ final products $f_1$ and $42$ final products $f_2$. 
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        \draw (0,0) node[circle, draw] (f1) {$f_1$};
+        \draw (2,0) node[circle, draw] (f2) {$f_2$};
+
+        \draw (-2,-2) node[circle, draw] (RM1) {$\vphantom{f_i}$};
+        \draw (1,-2) node[circle, draw] (1) {$1$};
+        \draw (4,-2) node[circle, draw] (2) {$2$};
+
+        \draw (1,-4) node[circle, draw] (3) {$3$};
+        \draw (4,-4) node[circle, draw] (RM2) {$\vphantom{f_i}$};
+
+        \draw (1,-6) node[circle, draw] (4) {$4$};
+        \draw (1,-8) node[circle, draw] (RM3) {$\vphantom{f_i}$};
+
+        \draw[->] (RM3) -- (4);
+        \draw[->] (4) -- (3);
+        \draw[->] (3) -- (2);
+        \draw[->] (3) -- (1);
+        \draw[->] (2) -- (f2);
+        \draw[->] (1) -- (f2);
+        \draw[->] (1) -- (f1);
+        \draw[->] (RM2) -- (2);
+        \draw[->] (RM1) -- (f1);
+        \draw[->] (4) -- (2);
+    \end{tikzpicture}
+    \caption{\label{shared_res:bom3}Bill of material}
+\end{figure}
+
+\subsection{Resolution}
+
+The first thing to do to solve this problem is to introduce the "dummy" product $D$ to turn this multiple final product problem into a single final product problem by computing the production mix : 
+\begin{align*} mix(f_1) &= \frac{28}{70} = \frac{2}{5} & mix(f_2) &= \frac{42}{70} = \frac{3}{5}  \end{align*}
+which yields possible values for $n_{f_1D}$ and $n_{f_2D}$ which are obtained by multiplying the mixes by $5$ : $n_{f_1D} = 2$ and $n_{f_2D} = 3$. Having computed these, we can now compute all the $n_{if}$ coefficients of our problem as follow : 
+\begin{align*}
+    n_{1D} &= n_{1f_1}n_{f_1D} + n_{1f_2}n_{f_2D} = 1.2 + 1.3 = 5 &
+    n_{2D} &= n_{2f_2}n_{f_2D} = 1.3 = 3 \\
+    n_{3D} &= n_{31}n_{1D} + n_{32}n_{2D} = 1.5 + 1.3 = 8 &
+    n_{4D} &= n_{43}n_{3D} + n_{42}n_{2D} = 1.8 + 1.3 = 11
+\end{align*}
+
+Using the latter simplifying assumption, we can compute the batch sizes in function of $\alpha$ like so :
+\[
+    \left.
+    \begin{split}
+        b(D, ?) &= \alpha\\
+        b(f_1, D) &= \alpha.2.1\\
+        b(f_2, D) &= \alpha.3.1\\
+        b(1, M2) &= \alpha.5.1\\
+        b(2, M2) &= \alpha.3.1\\
+        b(3, M2) &= \alpha.8.\frac{1}{4} = 2\alpha\\
+        b(3, M3) &= \alpha.8.\frac{3}{4} = 6\alpha\\
+        b(4, M3) &= \alpha.11.1
+    \end{split}
+    \right\}\Rightarrow\textrm{ we choose }\alpha = 1
+\] Since we do not have bacth size constraint, any value of $\alpha$ giving integer values for all the $b(.,.)$ coefficients are valid choices. For simplicity, we choose $\alpha = 1$. 
+
+Using these batch sizes, let's solve for the bottleneck machine by computing the maximum production rate. The following development tells us that $M3$ is the bottleneck machine :
+\[
+    X_f^{max} = \min\left(
+        \underbrace{\frac{1}{ \frac{10.2}{1} + 2.1.5 + 3.1.10 }}_{M1} ;
+        \underbrace{\frac{1}{ \frac{3.3}{1} + 5.1.2 + 3.1.5 + 8.\frac{1}{4}.6 }}_{M2} ;
+        \underbrace{\frac{1}{ 0 + 8.\frac{3}{4}.3 + 11.1.5 }}_{M3} ;
+    \right)
+    = \min\left( \frac{1}{60} ; \frac{1}{46} ; \frac{1}{73} \right) = \frac{1}{73}
+\]
+
+Finally, we can compute the production time needed to produce $\frac{70}{5} = 14$ dummy products corresponding to the $70$ final products required by the order. This gives :
+\[
+    T_{prod}(14)|_{\alpha=1} = \left( 4-1+\left\lceil \frac{14}{1} \right\rceil \right)(0 + 1.73) = 1241
+\]
+
+As a conclusion, the time needed to fullfill the order is estimated to $1241$ unit of times with a production cycle of $D=73$ unit of time. The GANTT diagram representing the production of the first batches can be found in figure (\ref{shared_res:gantt2}).
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[xscale=.05]
+        \draw[->] (0,0) node[left] {$M1$} -- (300, 0);
+        \draw[->] (0,-1) node[left] {$M2$} -- (300, -1);
+        \draw[->] (0,-2) node[left] {$M3$} -- (300, -2);
+
+        % production cycles
+        \foreach \k in {0,...,4} \draw[dotted] (\k * 73, 1) -- (\k * 73, -3);
+
+        % machine M3
+        \foreach \k in {0,...,3} \draw ( \k * 73 , -2) rectangle node {$11"4"$} (\k * 73 + 55, -1.5);
+        \foreach \k in {1,...,3} \draw ( \k * 73 + 55 , -2) rectangle node {$2"3"$} (\k * 73 + 55 + 18, -1.5);
+
+        % machine M2
+        \foreach \k in {1,...,3} \draw ( \k * 73 , -1) rectangle node {$2"3"$} (\k * 73 + 15, -.5);
+        \foreach \k in {2,...,3} \draw ( \k * 73 + 15 , -1) rectangle node {$5"1"$} (\k * 73 + 15 + 13, -.5);
+        \foreach \k in {2,...,3} \draw ( \k * 73 + 15 + 13 , -1) rectangle node {$3"2"$} (\k * 73 + 15 + 13 + 18, -.5);
+
+        % machine M1
+        \foreach \k in {3,...,3} \draw ( \k * 73 , 0) rectangle node {$2"f_1"$} (\k * 73 + 20, .5);
+        \foreach \k in {3,...,3} \draw ( \k * 73 + 20 , 0) rectangle node {$3"f_2"$} (\k * 73 + 20 + 25, .5);
+
+    \end{tikzpicture}
+    \caption{\label{shared_res:gantt2}GANTT diagram corresponding to the production of the first batches}
+\end{figure}
