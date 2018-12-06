@@ -33,12 +33,12 @@ Any system can be regarded as some sort of "black box" or "machine" that turns a
 
 The objective of this course is to analyse how we can make our production system more efficient with respect to some criteria (time, money, ...). Of course, our production depends on the methods and on the technolgies we use to manufacture our goods, but these are rather concerns for mechnanical engineers or more specific fields (chemistry, process engineering, ...). Actually, this course focuses on the only input we can, at our level, act uppon, which is : decisions.
 
-To understand how decisions can improve (or worsen) our productivity, let's take a very simple example. Consider the following task : "Drilling four holes in a piece of wood". And let $X$ be the rate of production. Consider as well that the "drilling" operation needs some set-up time in order to prepare the right borer and to turn on the machine. Let's denote by $T_S$ this set-up time and by $T_H$ the operation time which is necessary to actually drill the wooden piece. There are plenty of ways to perform such task, one idea is to drill one hole at a time, stopping the machine after each drill. But this wouldn't be a very clever way since we would have to wait for the set-up time for each hole we want to make. Another idea is to perform a batch of holes in a row so that we only account for the set-up time once for all the batch. The two situations are presented in the GANT diagram in figure (\ref{intro:gant}).
+To understand how decisions can improve (or worsen) our productivity, let's take a very simple example. Consider the following task : "Drilling four holes in a piece of wood". And let $X$ be the rate of production. Consider as well that the "drilling" operation needs some set-up time in order to prepare the right borer and to turn on the machine. Let's denote by $T_S$ this set-up time and by $T_H$ the operation time which is necessary to actually drill the wooden piece. There are plenty of ways to perform such task, one idea is to drill one hole at a time, stopping the machine after each drill. But this wouldn't be a very clever way since we would have to wait for the set-up time for each hole we want to make. Another idea is to perform a batch of holes in a row so that we only account for the set-up time once for all the batch. The two situations are presented in the GANTT diagram in figure (\ref{intro:gantt}).
 
 \begin{figure}[h!]
     \centering
     \begin{tikzpicture}
-        % first gant
+        % first gantt
         \draw [->] (0,0) -- (10,0);
         \draw (10.3, 0) node {$t$};
 
@@ -56,7 +56,7 @@ To understand how decisions can improve (or worsen) our productivity, let's take
 
         \draw (6, .3) node {...};
 
-        % second gant
+        % second gantt
         \draw [->] (0,-1) -- (10,-1);
         \draw (10.3, -1) node {$t$};
 
@@ -81,7 +81,7 @@ To understand how decisions can improve (or worsen) our productivity, let's take
         \draw (9, -.7) node {...};
         
     \end{tikzpicture}
-    \caption{\label{intro:gant}Two GANT diagrams showing how decisions can influence productivity}
+    \caption{\label{intro:gantt}Two GANTT diagrams showing how decisions can influence productivity}
 \end{figure}
 
 In the first situation, the rate of production can be expressed as \[ X_1 = \frac{1}{T_H + T_S} \] meaning that we produce one item every $T_H+T_S$ unit of times. For the second situation however, the rate can be computed as \[ X_2 = \frac{2}{2T_H + T_S} = \frac{1}{T_H + \frac{T_S}{2}} \] which means that we produce one item every $T_H+\frac{T_S}{2}$ unit of time, which is smaller. In fact, as long as the batch size increases, the set-up time becomes less and less influent on the production rate since \[ X_k = \frac{k}{kT_H+T_S}\overset{k\rightarrow\infty}{\longrightarrow} \frac{1}{T_H} \] which clearly demonstrates that we can influence our production by making some decisions rather than others. 

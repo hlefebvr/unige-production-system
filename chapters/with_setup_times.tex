@@ -12,7 +12,7 @@ Up to now, our considerations were only focused on the operation times for makin
         \draw[decorate, decoration={brace, amplitude=10pt}] (4, -.1) -- (1, -.1);
         \draw (3.25, -1) node {$\dfrac{b_i}{T_{si} + b_iT_{oi}} = \mu_i(b_i)$};
     \end{tikzpicture}
-    \caption{\label{setup:gant_ex}Simple example of batch production with setup time in GANT representation}
+    \caption{\label{setup:gant_ex}Simple example of batch production with setup time in GANTT representation}
 \end{figure}
 
 Concerning the rate of production of mahcine $i$ as depicted in figure (\ref{setup:gant_ex}), a few considerations are to be made : (1) of course, if we set the setup time to be zero we get back with our previous formula $\mu_i = 1/T_{oi}$ ; (2) when $b_i\rightarrow\infty$, we also get that $\mu_i(b_i)\rightarrow\frac{1}{T_{oi}}$, this can be simply explain as the fact that, if we produce more and more products in one batch, the setup time (which is paid just once), becomes less and less significant with respect to the production time.
@@ -26,7 +26,7 @@ As far as the representation in terms of graph (bill of materials) is concerned,
         \draw[<-] (i) -- node[below right] {$n_{ij}$} (j);
         \draw[dotted] (-.5, -.5) .. controls (0, -.7) .. (.5, -.5) node[right] {$(T_{si}, T_{oi})$};
     \end{tikzpicture}
-    \caption{\label{setup:graph_setup}Simple example of batch production with setup time in GANT representation}
+    \caption{\label{setup:graph_setup}Simple example of batch production with setup time in GANTT representation}
 \end{figure}
 
 \section{Finding the bottleneck machine(s)}
@@ -139,7 +139,7 @@ Notice that we used the fact that $1-X_f^*T_{oi}n_{if} \ge 0$ to go from the thi
 
 Let's take an example in order to see how we can play with these equations. Let's consider the bill of materials presented in figure (\ref{setup:bill_of_mat2}) and let us assume that we want to achieve a production rate of at least $X_f^* = 0.9 X_f^{max}(b_f^{max})$. For this example, we will assume that there is no upper bound for batch sizing so that $b_f^{max} = \infty$. It holds that \[ X_f^{max} = \min_i\left( \frac{1}{T_{oi}n_{if}} \right) = \min\left( \frac{1}{2} ; \frac{1}{1} ; \frac{1}{2} \right) = \frac{1}{2} \] which tells us that the bottleneck machines are the one denoted by $f$ and by $2$, and that the production we actually want to achieve is $X_f^* = .45$. That being said, we can now compute the minimum batch size we can use in order to fullfill this constraint. This is done lke so : \[ b_f^* = \max_i\left( \frac{.45\times 2}{1 - .45\times 2} ; \frac{.45\times 10}{1 - .45\times 1} ; \frac{.45\times 1}{1 - .45\times 2} \right) = 9 \]
 
-Let's assume that we choose to use exactely $b_f^*$ as our batch size (any greater size is actually also valid) to produce at rate $X_f^*$, exactely. Then, one cycle should lasts \[ D^* = \frac{b_f}{X_f^*}=\frac{9}{.45} = 20 \] And let's have a look at the GANT diagram given by these parameters in figure (\ref{setup:gant_mat2}). We can see that the bottleneck machine is the machine $f$ and that the machine $2$ is no more a bottleneck as we had originally planned. That is because the bottleneck machine actually depends on the batch size we use. When we firstly computed the bottleneck machines (when we computed $X_f^{max}$), we did it assuming that the batch size was the maximum one, which is no longer true. To make this even more clear, let's deal with the case where we want, with the same production plant, produce at a rate of $X_f^*=.3$ instead of $0.45$. But let us still use batches of $9$. 
+Let's assume that we choose to use exactely $b_f^*$ as our batch size (any greater size is actually also valid) to produce at rate $X_f^*$, exactely. Then, one cycle should lasts \[ D^* = \frac{b_f}{X_f^*}=\frac{9}{.45} = 20 \] And let's have a look at the GANTT diagram given by these parameters in figure (\ref{setup:gant_mat2}). We can see that the bottleneck machine is the machine $f$ and that the machine $2$ is no more a bottleneck as we had originally planned. That is because the bottleneck machine actually depends on the batch size we use. When we firstly computed the bottleneck machines (when we computed $X_f^{max}$), we did it assuming that the batch size was the maximum one, which is no longer true. To make this even more clear, let's deal with the case where we want, with the same production plant, produce at a rate of $X_f^*=.3$ instead of $0.45$. But let us still use batches of $9$. 
 
 First, let's make sure that it is possible to use $b_f = 9$ by computing the lowest batch size we can use with respect to the constraint $X_f\ge .3$ :
 \[
@@ -149,7 +149,7 @@ First, let's make sure that it is possible to use $b_f = 9$ by computing the low
         &= \frac{30}{7} \approx 4
     \end{split}
 \]
-This tells us two things : (1) that the batch size has to be greater than $4$ (so we can use $9$ while respecting our constraints) ; (2) that if we use $b_f = b_f^*$, the bottleneck machine will be machine $1$. However, and as discussed, the GANT diagram in figure (\ref{setup:gant_mat2_2}), the bottleneck machine is actually still the machine $f$ if we use $9$ as our batch size. The production cycle is computed as always by $D^* = \frac{9}{.3} = 30$. 
+This tells us two things : (1) that the batch size has to be greater than $4$ (so we can use $9$ while respecting our constraints) ; (2) that if we use $b_f = b_f^*$, the bottleneck machine will be machine $1$. However, and as discussed, the GANTT diagram in figure (\ref{setup:gant_mat2_2}), the bottleneck machine is actually still the machine $f$ if we use $9$ as our batch size. The production cycle is computed as always by $D^* = \frac{9}{.3} = 30$. 
 
 \begin{figure}[h!]
     \centering
@@ -172,7 +172,7 @@ This tells us two things : (1) that the batch size has to be greater than $4$ (s
         \draw (4, -1.25) node {$19$} ++(-2, 0) node {$19$};
         \draw (4, -1.75) node {$9$} ++(-2, 0) node {$9$};
     \end{tikzpicture}
-    \caption{\label{setup:gant_mat2}GANT diagram when $X_f^*=0.45$ and batch size is $b_f=b_f^*=9$}
+    \caption{\label{setup:gant_mat2}GANTT diagram when $X_f^*=0.45$ and batch size is $b_f=b_f^*=9$}
     \begin{tikzpicture}
         \draw[->] (0,0) node[left] {$f$} -- (10, 0);
         \draw (8, 0) rectangle (10, .5);
@@ -195,7 +195,7 @@ This tells us two things : (1) that the batch size has to be greater than $4$ (s
         \draw[dashed, gray, ->] (7, .5) .. controls (9, 1.2) .. (10, .5);
         \draw[gray] (9, 1.4) node {$D = 30$};
     \end{tikzpicture}
-    \caption{\label{setup:gant_mat2_2}GANT diagram when $X_f^*=0.3$ and batch size is $b_f=9$}
+    \caption{\label{setup:gant_mat2_2}GANTT diagram when $X_f^*=0.3$ and batch size is $b_f=9$}
 \end{figure}
 
 \begin{figure}[p]

@@ -183,11 +183,11 @@ Let's assume to produce at a rate $X_f^* = \frac{1}{11}$, what is the minimum ba
     \right)\\
     &= 2
 \end{align*}
-Which means that producing at rate $\frac{1}{11}$ implies using a batch of at least $2$ items $f$. If we use such a batch size, the bottleneck machine would be machine $4$. Let's try to depict the GANT diagram.
+Which means that producing at rate $\frac{1}{11}$ implies using a batch of at least $2$ items $f$. If we use such a batch size, the bottleneck machine would be machine $4$. Let's try to depict the GANTT diagram.
 
-The way of drawing the GANT diagram is the following : 
+The way of drawing the GANTT diagram is the following : 
 \begin{enumerate}
-    \item Draw a repeatable GANT diagram taking into account the production time of each batch
+    \item Draw a repeatable GANTT diagram taking into account the production time of each batch
     \item Identify the "schedule" for producing the first batch
     \begin{enumerate}
         \item Color the "boxes" associated to the machines without predecessors in the bill of material (these machines are the first (and only) machines to work during the first time window)
@@ -195,7 +195,7 @@ The way of drawing the GANT diagram is the following :
     \end{enumerate}
 \end{enumerate}
 
-Note that, still like before, it takes $L.D$ (where $L$ is the number of levels of bill of material) to produce the first batch. In our case, $D=b_f/X_f=22$. The associated GANT diagram is represented in figure (\ref{shared_temp:gant}).
+Note that, still like before, it takes $L.D$ (where $L$ is the number of levels of bill of material) to produce the first batch. In our case, $D=b_f/X_f=22$. The associated GANTT diagram is represented in figure (\ref{shared_temp:gantt}).
 
 \begin{figure}
     \begin{tikzpicture}[xscale=.15]
@@ -215,5 +215,5 @@ Note that, still like before, it takes $L.D$ (where $L$ is the number of levels 
 
         \foreach \d in {0,...,5} \draw[dashed, gray] (\d * 22, .75) -- (\d * 22, -7.5);
     \end{tikzpicture}
-    \caption{\label{shared_temp:gant}GANT diagram}
+    \caption{\label{shared_temp:gantt}GANTT diagram}
 \end{figure}

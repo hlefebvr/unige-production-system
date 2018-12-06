@@ -7,7 +7,7 @@ So far, we have built a model considering operation time and setup times to for 
             &\Leftrightarrow b_i\ge \frac{X_f^*n_{if}T_{si}}{1 - X_f^*n_{if}T_{oi}}, \forall i
     \end{split}
 \]
-Futhermore, we know that the production rate for machine $i$ can be computed as $X_i^*=X_f^*n_{if}$ and that the "production" cycle is given by $D_i^*=\frac{b_i}{X_i^*}$. However, how can we draw a GANT diagram of such a production plan ?
+Futhermore, we know that the production rate for machine $i$ can be computed as $X_i^*=X_f^*n_{if}$ and that the "production" cycle is given by $D_i^*=\frac{b_i}{X_i^*}$. However, how can we draw a GANTT diagram of such a production plan ?
 
 \section{The Kanban organisation}
 
@@ -34,7 +34,7 @@ Given these numbers, we can easily input how many items of product $i$ are produ
     \caption{\label{giving_up:bom1}Example}
 \end{wrapfigure}
 
-But let's have an example in order to understand better how we can draw our gant. Consider figure (\ref{giving_up:bom1}) and a minimum production rate $X_f^* = \frac{1}{3}$. We can easily compute the minimum batch size resulting of that constraint using the previously cited formula like so :
+But let's have an example in order to understand better how we can draw our gantt. Consider figure (\ref{giving_up:bom1}) and a minimum production rate $X_f^* = \frac{1}{3}$. We can easily compute the minimum batch size resulting of that constraint using the previously cited formula like so :
 \[
     \begin{split}
         b_f &\ge \frac{\frac{1}{3}.1.10}{1-\frac{1}{3}.1.1} = 5\\
@@ -48,7 +48,7 @@ These lower bounds tell us about the minimum batch size we have to use in order 
     D_1^* = \frac{5}{\frac{1}{3}.1} = 15 = 3.5 \textrm{ ; }
     D_2^* = \frac{10}{\frac{1}{3}} = 30 = 2.3.5
 \]
-From which we can now deduce the minimum common multiple which is the minimum production cycle for the overall plan : $D^* = 2.3^2.5 = 90$. Assuming these results, you will find in figure (\ref{giving_up:gant1}) the GANT representation of two production cycles.
+From which we can now deduce the minimum common multiple which is the minimum production cycle for the overall plan : $D^* = 2.3^2.5 = 90$. Assuming these results, you will find in figure (\ref{giving_up:gant1}) the GANTT representation of two production cycles.
 
 \begin{figure}[h!]
     \centering
@@ -89,16 +89,16 @@ From which we can now deduce the minimum common multiple which is the minimum pr
         \draw[->] (85, -2.8) .. controls (87, -2.6) .. (89, -2.2);
         \draw[<->] (81, .5) -- node[above] {\small $10$} (89, .5);
     \end{tikzpicture}
-    \caption{\label{giving_up:gant1}Resulting GANT diagram}
+    \caption{\label{giving_up:gant1}Resulting GANTT diagram}
 \end{figure}
 
-However, as depicted in figure (\ref{giving_up:gant1}), one may have noticed that we did not fully respect the dependency of product $1$ over product $2$, nor of $f$ over $1$. In fact, it is not possible to draw such a GANT. To avoid this, we assume the existence of queues in front of each machine and that from now on, the objective for every machine is to fill the queue in front of it when it is emptied. This way of reasonning is called "pull production" since the information flow goes from right to left, whereas in the previous chapters we were referencing to "push production" since it was the raw material which determined when the following tasks could begin. In this view of the production line, every machine starts producing a batch as soon as the queue in front of him is empty. It is called as well KANBAN organisation. 
+However, as depicted in figure (\ref{giving_up:gant1}), one may have noticed that we did not fully respect the dependency of product $1$ over product $2$, nor of $f$ over $1$. In fact, it is not possible to draw such a GANTT. To avoid this, we assume the existence of queues in front of each machine and that from now on, the objective for every machine is to fill the queue in front of it when it is emptied. This way of reasonning is called "pull production" since the information flow goes from right to left, whereas in the previous chapters we were referencing to "push production" since it was the raw material which determined when the following tasks could begin. In this view of the production line, every machine starts producing a batch as soon as the queue in front of him is empty. It is called as well KANBAN organisation. 
 
 \section{Using Kanban with $b_i = b_fn_{if}$}
 
 Studying this new kind of systems, we have discovered a new pattern for production scheduling. In this section, we will have a look at what happens if we apply the KANBAN organisation to the situations in which $b_i = b_fn_{if}$. Of course, we have $X_f^* = b_f^*$ which gives us, for machine $i$, a production cycle of \[ D_i^* = \frac{b_fn_{if}}{X_f^*n_{if}} = \frac{b_f}{X_f^*} \] which does not depend on $i$. Computing the overall production rate is trivial since the \emph{minimum common multiple} of a set of identical numbers $D_i^*$ is simply given by $D_i^*$. So that $D^* = D_i^*, \forall i$ since they are the same. 
 
-Using figure (\ref{giving_up:bom1}) again with the same production rate ($\frac{1}{3}$), we can compute $b_f^*$ easily like before. This yields $b_f^* = 10$. Let's say we decide to use $b_f = 12$. Then we can compute the production cycle as $D^* = \frac{12}{\frac{1}{3}} = 36$ (and of course $D^* = D_i^*$) and we can draw, as in figure (\ref{giving_up:gant2}), the GANT diagram of such a plan. 
+Using figure (\ref{giving_up:bom1}) again with the same production rate ($\frac{1}{3}$), we can compute $b_f^*$ easily like before. This yields $b_f^* = 10$. Let's say we decide to use $b_f = 12$. Then we can compute the production cycle as $D^* = \frac{12}{\frac{1}{3}} = 36$ (and of course $D^* = D_i^*$) and we can draw, as in figure (\ref{giving_up:gant2}), the GANTT diagram of such a plan. 
 
 \begin{figure}[h!]
     \centering
@@ -135,7 +135,7 @@ Using figure (\ref{giving_up:bom1}) again with the same production rate ($\frac{
         }
 
     \end{tikzpicture}
-    \caption{\label{giving_up:gant2}GANT diagram using batch size $b_f = 12$}
+    \caption{\label{giving_up:gant2}GANTT diagram using batch size $b_f = 12$}
 \end{figure}
 
 If we assume to start the production with empty queues in front of each machine, what would be the time needed to produce the first batch ? Well, as represented by the green rectangles in figure (\ref{giving_up:gant2}), we would roughly need to wait as many production cycles as there are levels in the bill of materials (which means, product dependencies). Thus, the following formula 

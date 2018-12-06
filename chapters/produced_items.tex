@@ -125,7 +125,7 @@ Using these formulas, we easily get the following results : \begin{center}
         $8$ & $46$ & $33$ & $838$ \\\hline
         $10$ & $52$ & $41$ & $831$ \\\hline
     \end{tabular}
-\end{center} Which means that, for this way of producing $200$ items, using a batch size of $10$ items is the quicker (it turns out to be the biggest batch size but this is just a particular case). However, there are other ways of getting to $200$ ! For example, we may want to produce $13$ batches of $15$ and a batch of $5$, since $200 = 13\times 15 + 5$. Looking at figure (\ref{produced_i:gant}), we realise that we can compute the time needed to produce $200$ items in that way by first computing the time to produce $13$ bacthes of $15$ and then add the difference between the needed time to produce a batch of $5$ and the time at which the bottleneck machine can start.
+\end{center} Which means that, for this way of producing $200$ items, using a batch size of $10$ items is the quicker (it turns out to be the biggest batch size but this is just a particular case). However, there are other ways of getting to $200$ ! For example, we may want to produce $13$ batches of $15$ and a batch of $5$, since $200 = 13\times 15 + 5$. Looking at figure (\ref{produced_i:gantt}), we realise that we can compute the time needed to produce $200$ items in that way by first computing the time to produce $13$ bacthes of $15$ and then add the difference between the needed time to produce a batch of $5$ and the time at which the bottleneck machine can start.
 
 We get that : \[
     \begin{split}
@@ -135,7 +135,7 @@ We get that : \[
         T_{prod}(5) &= 37\\
         T_b(5) &= 25
     \end{split}
-\] And, it holds that the delay represented by the red arrow in figure (\ref{produced_i:gant}) can be computed as the production time of the bottleneck machine $T_b(5)$ minus the production time of machine $f$, which yields $25 - 16 = 9$. We can now compute the final, overall, production time which is : $809 + 9 + 6 = 824$ ! Which is less than what we had previously found. 
+\] And, it holds that the delay represented by the red arrow in figure (\ref{produced_i:gantt}) can be computed as the production time of the bottleneck machine $T_b(5)$ minus the production time of machine $f$, which yields $25 - 16 = 9$. We can now compute the final, overall, production time which is : $809 + 9 + 6 = 824$ ! Which is less than what we had previously found. 
 
 \begin{figure}[h!]
     \centering
@@ -159,7 +159,7 @@ We get that : \[
         
         \draw[<->, red] (67, .25) -- (67 + 9, .25);
     \end{tikzpicture}
-    \caption{\label{produced_i:gant}GANT diagram corresponding to the production of $200 = 13\times 15 + 5$ items}
+    \caption{\label{produced_i:gantt}GANTT diagram corresponding to the production of $200 = 13\times 15 + 5$ items}
 \end{figure}
 
 Finding the optimal batch size is not easy to be done by hand and we usually use approximation techniques to find a solution. 
