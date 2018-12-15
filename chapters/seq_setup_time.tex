@@ -1,0 +1,49 @@
+In this last chatper, we will continue to extend our model in order to take into consideration one last aspect of real production plants : sequence dependent setup times. Remember that the setup time is the time in which the machine does not produce anything, yet it is needed to somehow "get it ready" to work. For instance, some machines may need to be warmed up before their use, or cleaned or balanced. So far, we have always considered setup times as constant whatever the sequence of task. However, one may notice that, for instance, if the setup time of one machine is due to its necessity of being warmed up, then maybe doing too task with that same necessity on the same machine one after the other implies a reduced setup time for the second task. Another example is the one of cleanning operations : if you perform a task which leaves your machine dirty before another one which needs to be performed in a very clean environment, you may want to clean intensively your machine before doing the second time, which takes a lot of time. On the other hand, if you perform the "clean" task before the "difrty" one, you probably need less time to clean. Of course, a combination of all these examples is also possible. This is why the setup times will now be formally represented as a constant term $T_{sm}$ to which we add a "sequence dependent" term $\tilde{T}_{sm}(i,j)$ like so : 
+\[ T_{setup} = T_{sm} + \tilde{T}_{sm}(i,j) \]
+
+\section{One simplifying assumption}
+
+So far our model gives us a way of computing a time window span in which $b(i,m)$ items are produced as \[ D(i,m) = \frac{b(i,m)}{X_fn_{if}\lambda(i,m)} \] Using these computations, we were able to deduce an overal time window in which $K(i,m) = \frac{D}{D(i,m)}$ items $"i"$ where produced as the least common multiple of all the $D(i,m)$ coefficients. By multiplying the above formula by $K(i,m)$ we get the following :
+\[
+    \underbrace{K(i,m)D(i,m)}_{D} = \frac{K(i,m)b(i,m)}{X_fn_{if}\lambda(i,m)}
+\]
+where $K(i,m)b(i,m)$ then represents the number of items "$i$" produced within $D$. By rearanging this equation, we can notice that the following holds \[ K(i,m)b(i,m) = (DX_f)n_{if}\lambda(i,m) \] and that $DX_f$ does not depend on $i$ and $m$. Also note that, when $b(i,m) = \alpha n_{if}\lambda(i,m)$ (which is the simplifed case we have been adressing to in the last chapter), it holds that $K(i,m) = 1$. In the following section, for simplicity, we will remain under that assumption. Hence, in all this chapter, the following relation is verified : \[ b(i,m) = \alpha n_{if}\lambda(i,m) \]
+
+\section{Extending the model}
+
+With what have been said in mind, let's compute the maximum production rate of a given machine per item. It can be computed as the number of batches produced divided by the minimum time needed to produce that batch. Hence the following : 
+\[ \mu(i,m) = \dfrac{b(i,m)}{\sum_{\underset{\lambda\ne 0}{i}} (T_{sm} + b(i,m)T_o(i,m)) + S(m) } \]
+where $S(m)$ is given by the smallest combination of setup times of all the tasks performed by $m$. This results from the \textit{Traveling Salesman Problem} which has to be solved \textit{a priori}. 
+
+By substitution, it holds that 
+\[
+    \begin{split}
+        \mu(i,m) &= \frac{\alpha n_{if}\lambda(i,m)}{ T_{sm}\gamma(m) + \alpha\sum_i n_{if}\lambda(i,m)T_o(i,m) + S(m) }\\
+        &= \dfrac{ n_{if}\lambda(i,m) }{ \sum_i n_{if}\lambda(i,m)T_o(i,m) + \left( \frac{ T_{sm}\gamma(m) + S(m) }{ \alpha } \right) }
+    \end{split}
+\]
+which enables us to compute the relative utilisation of machine $m$ with respect to product $i$ as 
+\[
+    \begin{split}
+        u(i,m) &= \frac{X_fn_{if}\lambda(i,m)}{\mu(i,m)}\\
+        &= \dfrac{ X_fn_{if}\lambda(i,m) }{ \frac{ n_{if}\lambda(i,m) }{ \sum_i n_{if}\lambda(i,m)T_o(i,m) + \frac{T_{sm}\gamma(m) + S(m)}{\alpha} } }\\
+        &= X_f\left( \sum_i n_{if}\lambda(i,m)T_o(i,m) + \frac{T_{sm}\gamma(m) + S(m)}{\alpha} \right)
+    \end{split}
+\]
+which, in fact, only depends on $m$. Hence, the utilisation of machine $m$ with respect to any item is equal to the global utilisation of machine $m$. 
+
+What's more, we know that $u(m)\le 1$ which yields (using analogous arguments to what have been previously done in such situations) the following relation : 
+\[
+    X_f^{max} = \min_m\left( \frac{1}{ \sum_i n_{if}\lambda(i,m)T_o(i,m) + \frac{T_{sm}\gamma(m) + S(m)}{\alpha} } \right)
+\]
+
+Just like in the preivous considerations, we may compute three different bounds for the production rate : 
+\begin{itemize}
+    \item $\bar X_f^{max}$ which is the maximum value of $X_f^{max}$ with respect to $\alpha$, having fixed $\lambda$. Since $X_f^{max}$ is monotonically increasing with respect to $\alpha$, then $\bar X_f^{max}(\underline \lambda) = X_f^{max}(\alpha^{max})$
+    \item $\bbar X_f^{max}$ which is the maximum value of $X_f^{max}$ with respect to $\lambda$, having fixed $\alpha$. In this case, the problem becomes a combinatorial problem since two discontinuities arise from $\gamma(m)$ and $S(m)$. Indeed, the discontinuity from $\gamma(m)$ had already been pointed out in the previous chapter. The discontinuity from $S(m)$ comes from the fact that, for a given number of different items to be produced by machine $m$, a set of different combinations exists. For instance, let's imagine a machine able to produce items $\{ 1, 2, 3, 4 \}$ but let's assume that we have fixed $\gamma(m) = 2$ then the following decisions can be made regarding the production of machine $m$ : $\{ \{ 1, 2 \}, \{ 1, 3 \}, \{ 1, 4 \}, \{ 2, 3 \}, \{ 2, 4 \},  \{ 3, 4 \} \}$ which all yields different values for $S(m)$ in the case of asymetric setup times. 
+    \item $\bbbar X_f^{max}$ which is the global maximum of $X_f^{max}$.
+\end{itemize}
+
+In the latter case, and if $\alpha^{max} = \infty$, note that the value of $\bbbar X_f^{max}$ becomes unreliable since the computation does not take anymore into consideration the sequence while still fixing $\lambda(i,m)$. 
+
+Taking into this extension account, the rest of the computations remains unchanged with respect to all what have been previously said. 
